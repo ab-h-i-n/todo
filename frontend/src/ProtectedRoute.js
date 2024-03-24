@@ -1,12 +1,10 @@
-import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import { UserContext } from './UserContex';
+import secureLocalStorage from 'react-secure-storage';
+
 
 function ProtectedRoute({children}) {
 
-  const userData = localStorage.getItem('user');
-
-  console.log(userData);
+  const userData = secureLocalStorage.getItem('user');
 
   return userData ? children : <Navigate to="/signin" />;
 }
