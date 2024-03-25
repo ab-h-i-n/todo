@@ -11,7 +11,7 @@ const TodoCard = ({ todo }) => {
 
   const changeComplete = async() => {
     try {
-      const responce = await fetch("http://localhost:3001/setcomplete", {
+      const responce = await fetch("https://ab-h-i-n-todo-server.vercel.app/setcomplete", {
         method: "PUT",
         headers : {
           'Content-Type' : 'application/json'
