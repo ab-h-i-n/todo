@@ -53,7 +53,7 @@ const SigninPage = () => {
       <div className="grid place-items-center h-screen">
         <form
           onSubmit={handleSignIn}
-          className="grid w-full max-w-[600px] gap-4 bg-[#ffffff87] backdrop-blur-sm p-10 lg:py-20 lg:px-12 rounded-3xl shadow-2xl shadow-themeShadow"
+          className="grid w-full max-w-[600px] gap-4 bg-[#fcfeffdb] backdrop-blur-sm p-10 lg:py-20 lg:px-12 rounded-3xl shadow-2xl shadow-themeShadow"
         >
           <div>
             <div className="mb-1 block">

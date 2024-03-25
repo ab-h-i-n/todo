@@ -8,7 +8,8 @@ import AddModal from "../components/AddModal";
 
 const HomePage = () => {
   const { userData, setUserData } = useContext(UserContext);
-  const [isModalOpen,setModalOpen] = useState(false);
+  const [isAddModalOpen,setAddModalOpen] = useState(false);
+
 
   const fetchUser = async () => {
     try {
@@ -38,6 +39,10 @@ const HomePage = () => {
     console.log(userData);
   }, [userData]);
 
+  useEffect(()=>{
+    fetchUser();
+  },[isAddModalOpen])
+
   return (
     <div className="min-h-screen ">
       <div className="mx-5 mb-20">
@@ -46,9 +51,9 @@ const HomePage = () => {
         <TodosContainer />
       </div>
 
-      <AddModal setModalOpen={setModalOpen} isModalOpen={isModalOpen} />
+      <AddModal setModalOpen={setAddModalOpen} isModalOpen={isAddModalOpen}  />
 
-      <AddButton setModalOpen={setModalOpen} />
+      <AddButton setModalOpen={setAddModalOpen} />
     </div>
   );
 };

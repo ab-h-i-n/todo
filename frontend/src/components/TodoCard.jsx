@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import secureLocalStorage from "react-secure-storage";
+import EditModal from "./EditModal";
 
 const TodoCard = ({ todo }) => {
   const [isOn, setOn] = useState(todo?.isComplete);
   var userId = secureLocalStorage.getItem("user");
   const uid = JSON.parse(userId)._id
+  const [isEditModalOpen,setEditModalOpen] = useState(false);
   
 
   const changeComplete = async() => {
@@ -32,6 +34,7 @@ const TodoCard = ({ todo }) => {
 
   return (
     <>
+      <EditModal setModalOpen={setEditModalOpen} isModalOpen={isEditModalOpen} todo={todo} />
       <div className="bg-[#ffffff78] backdrop-blur-lg shadow-2xl shadow-themeShadow rounded-3xl px-5 divide-y-2 divide-[#00000034]">
         {/* title  */}
 
@@ -71,7 +74,7 @@ const TodoCard = ({ todo }) => {
 
         {/* message  */}
 
-        <div className={`${isOn ? "line-through opacity-50" : ""} py-5`}>
+        <div onClick={()=>setEditModalOpen(true)} className={`${isOn ? "line-through opacity-50" : ""} py-5`}>
           {todo.msg}
         </div>
       </div>
