@@ -22,7 +22,7 @@ const AddModal = ({ setModalOpen, isModalOpen }) => {
     };
 
     try {
-      const responce = await fetch("http://localhost:3001/newtodo", {
+      const responce = await fetch("https://ab-h-i-n-todo-server.vercel.app/newtodo", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
