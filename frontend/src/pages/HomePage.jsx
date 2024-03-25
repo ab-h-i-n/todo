@@ -15,7 +15,7 @@ const HomePage = () => {
     try {
       const userId = secureLocalStorage.getItem("user");
 
-      const responce = await fetch("http://localhost:3001/user", {
+      const responce = await fetch("https://ab-h-i-n-todo-server.vercel.app/user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
