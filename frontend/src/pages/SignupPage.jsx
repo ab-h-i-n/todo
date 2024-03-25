@@ -22,7 +22,7 @@ const SignupPage = () => {
         password: passRef.current.value,
       };
 
-      const responce = await fetch("http://localhost:3001/signup", {
+      const responce = await fetch("https://ab-h-i-n-todo-server.vercel.app/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
