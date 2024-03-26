@@ -11,7 +11,9 @@ app.use('/', router);
 
 // Middleware for parsing JSON bodies
 router.use(express.json());
-router.use(cors('/'));
+router.use(cors({
+    origin : 'https://ab-h-i-n-todo-server.vercel.app'
+}));
 
 
 app.listen(3001, () => {
