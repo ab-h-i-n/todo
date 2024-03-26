@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
+const { format } = require('date-fns');
 
 dotenv.config();
 
@@ -28,6 +29,14 @@ const uri = process.env.MONGODB_URI;
 mongoose.connect(uri).then(() => {
     console.log(`Connected to MongoDB`);
 })
+
+const getTimeStamp = () => {
+
+    const currentDateTime = new Date();
+    const formattedDateTime = format(currentDateTime, 'yyyy-MM-dd HH:mm:ss');
+
+    return formattedDateTime;
+}
 
 var UserSchema = mongoose.Schema({
     user_name: String,
@@ -199,9 +208,8 @@ router.put('/newtodo', (req, res) => {
         title: req.body.title,
         msg: req.body.msg,
         isComplete: false,
-        timestamp: new Date().getTime()
+        timestamp: getTimeStamp()
     };
-
 
     User.findOneAndUpdate(
         { _id: req.body._id },
@@ -342,7 +350,7 @@ router.put('/edittodo', (req, res) => {
 
                 todo.title = req.body.title;
                 todo.msg = req.body.msg;
-                todo.timestamp = new Date().getTime();
+                todo.timestamp = getTimeStamp()
 
                 usr.save().then((upUsr)=>{
                     res.json({
