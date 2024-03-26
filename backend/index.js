@@ -4,7 +4,9 @@ var router = express.Router();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
+const dotenv = require('dotenv');
 
+dotenv.config();
 
 app.use('/', router);
 
@@ -13,14 +15,15 @@ app.use('/', router);
 router.use(express.json());
 router.use(cors());
 
+const port = process.env.PORT
 
-app.listen(3001, () => {
+app.listen(port, () => {
 
     console.log('Server Started !');
 
 })
 
-const uri = `mongodb+srv://root:root@cluster0.5roqgjn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+const uri = process.env.MONGODB_URI;
 
 mongoose.connect(uri).then(() => {
     console.log(`Connected to MongoDB`);
