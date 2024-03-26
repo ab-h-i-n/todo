@@ -49,10 +49,10 @@ const TodoCard = ({ todo, setTodoDeleted }) => {
 
         <div className={`${isOn ? "line-through opacity-50" : ""} py-5`}>
           {todo.msg}
-        </div>
 
-        {/* time stamp  */}
-        <div>{todo.timestamp}</div>
+          {/* time stamp  */}
+          <div className="text-xs text-center pt-3 text-themeShadow font-medium">{todo.timestamp}</div>
+        </div>
       </div>
     </>
   );
