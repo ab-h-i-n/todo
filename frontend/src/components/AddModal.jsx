@@ -40,7 +40,6 @@ const AddModal = ({ setModalOpen, isModalOpen }) => {
       if (error) {
         alert(error);
       }else{
-        console.log('add modal',data);
         setUserData(data);
       }
     } catch (error) {

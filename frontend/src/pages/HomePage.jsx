@@ -42,9 +42,9 @@ const HomePage = () => {
     fetchUser();  // eslint-disable-next-line
   },[])
 
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
+  // useEffect(() => {
+  //   console.log(userData);
+  // }, [userData]);
 
   return (
     <div className="min-h-screen overflow-x-hidden relative">
