@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import secureLocalStorage from "react-secure-storage";
+import { UserContext } from "../UserContex";
 
 const DeleteButton = ({setModalOpen,todo}) => {
+
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
+    const {setUserData} = useContext(UserContext);
 
     const handleDelete = async() => {
 
@@ -9,7 +13,7 @@ const DeleteButton = ({setModalOpen,todo}) => {
 
         try {
             
-            const responce = await fetch('https://ab-h-i-n-todo-server.vercel.app/deletetodo',{
+            const responce = await fetch(`${serverUrl}/deletetodo`,{
                 method : 'DELETE',
                 headers : {
                     'Content-Type' : 'application/json'
@@ -20,10 +24,12 @@ const DeleteButton = ({setModalOpen,todo}) => {
                 })
             })
 
-            const {_, error} = await responce.json();
+            const {data, error} = await responce.json();
 
             if(error){
                 console.error(error);
+            }else{
+                setUserData(data);
             }
 
         } catch (error) {

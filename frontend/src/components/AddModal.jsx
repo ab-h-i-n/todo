@@ -1,12 +1,17 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import SubmitButton from "./SubmitButton";
 import { Label, TextInput } from "flowbite-react";
 import secureLocalStorage from "react-secure-storage";
+import { UserContext } from "../UserContex";
 
 const AddModal = ({ setModalOpen, isModalOpen }) => {
+  const { setUserData } = useContext(UserContext);
+
   const titleRef = useRef();
   const msgRef = useRef();
   const userId = secureLocalStorage.getItem("user");
+
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
 
   const handleFormClick = (e) => {
     e.stopPropagation(); // Prevent the click event from bubbling up
@@ -22,7 +27,7 @@ const AddModal = ({ setModalOpen, isModalOpen }) => {
     };
 
     try {
-      const responce = await fetch("https://ab-h-i-n-todo-server.vercel.app/newtodo", {
+      const responce = await fetch(`${serverUrl}/newtodo`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -34,10 +39,15 @@ const AddModal = ({ setModalOpen, isModalOpen }) => {
 
       if (error) {
         alert(error);
+      }else{
+        console.log('add modal',data);
+        setUserData(data);
       }
     } catch (error) {
       console.error(error);
     }finally{
+      titleRef.current.value = '';
+      msgRef.current.value ='';
       setModalOpen(false);
     }
   };

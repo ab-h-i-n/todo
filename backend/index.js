@@ -11,9 +11,7 @@ app.use('/', router);
 
 // Middleware for parsing JSON bodies
 router.use(express.json());
-router.use(cors({
-    origin : 'https://ab-h-i-n-todo-server.vercel.app'
-}));
+router.use(cors());
 
 
 app.listen(3001, () => {
@@ -201,9 +199,11 @@ router.put('/newtodo', (req, res) => {
         timestamp: new Date().getTime()
     };
 
+
     User.findOneAndUpdate(
         { _id: req.body._id },
-        { $push: { todos: newTodo } }
+        { $push: { todos: newTodo } },
+        { new: true }
     ).then(updatedUser => {
 
         if (updatedUser) {
@@ -279,6 +279,7 @@ router.put('/setcomplete', (req, res) => {
 
 router.delete('/deletetodo', (req, res) => {
 
+
     User.findOne({ _id: req.body._id }).then(usr => {
 
         if (!usr) {
@@ -300,10 +301,10 @@ router.delete('/deletetodo', (req, res) => {
                     res.json({
                         error: null,
                         data: {
-                            _id: updateduser._id,
-                            user_name: updateduser.user_name,
-                            email: updateduser.email,
-                            todos: updateduser.todos
+                            _id: usr._id,
+                            user_name: usr.user_name,
+                            email: usr.email,
+                            todos: usr.todos
                         }
                     });
                 })
@@ -322,3 +323,49 @@ router.delete('/deletetodo', (req, res) => {
     })
 
 })
+
+router.put('/edittodo', (req, res) => {
+
+    const userId = req.body._id;
+    const todoId = req.body.todo_id;
+
+    User.findOne({ _id: userId })
+    .then(usr => {
+        if (usr) {
+            
+            const todo = usr.todos.find(t => t._id == todoId);
+
+            if(todo){
+
+                todo.title = req.body.title;
+                todo.msg = req.body.msg;
+                todo.timestamp = new Date().getTime();
+
+                usr.save().then((upUsr)=>{
+                    res.json({
+                        error: null,
+                        data: {
+                            _id: upUsr._id,
+                            user_name: upUsr.user_name,
+                            email: upUsr.email,
+                            todos: upUsr.todos
+                        }
+                    })
+                })
+            }else{
+
+                res.status(404).json({
+                    data : null,
+                    error: 'Todo not found!'
+                })
+            }
+
+        } else {
+            res.status(404).json({
+                data : null,
+                error : "User not found!"
+            });
+        }
+    }).catch()
+
+}) 

@@ -10,6 +10,8 @@ const SigninPage = () => {
   const emailRef = useRef();
   const passRef = useRef();
 
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+
   const handleSignIn = async (e) => {
     e.preventDefault();
 
@@ -19,7 +21,7 @@ const SigninPage = () => {
         password: passRef.current.value,
       };
 
-      const responce = await fetch("https://ab-h-i-n-todo-server.vercel.app/signin", {
+      const responce = await fetch(`${serverUrl}/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
