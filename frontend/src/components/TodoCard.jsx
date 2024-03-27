@@ -23,7 +23,7 @@ const TodoCard = ({ todo, setTodoDeleted }) => {
         <div className="py-5 font-semibold text-xl flex justify-between items-center relative">
           {/* completed tag  */}
 
-          {todo.isComplete && <CompletedTag />}
+          {isOn && <CompletedTag />}
 
           {/* titile  */}
           <p
