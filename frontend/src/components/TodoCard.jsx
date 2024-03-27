@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import EditModal from "./EditModal";
 import CompleteButton from "./CompleteButton";
+import CompletedTag from "./CompletedTag";
 
 const TodoCard = ({ todo, setTodoDeleted }) => {
   const [isOn, setOn] = useState(todo?.isComplete);
@@ -15,11 +16,15 @@ const TodoCard = ({ todo, setTodoDeleted }) => {
         setTodoDeleted={setTodoDeleted}
       />
       <div
-        className={` bg-[#ffffff78] backdrop-blur-lg shadow-2xl shadow-themeShadow rounded-3xl px-5 divide-y-2 divide-[#00000034]`}
+        className={`overflow-hidden bg-[#ffffff78] backdrop-blur-lg shadow-2xl shadow-themeShadow rounded-3xl px-5 divide-y-2 divide-[#00000034]`}
       >
         {/* title  */}
 
-        <div className="py-5 font-semibold text-xl flex justify-between items-center">
+        <div className="py-5 font-semibold text-xl flex justify-between items-center relative">
+          {/* completed tag  */}
+
+          {todo.isComplete && <CompletedTag />}
+
           {/* titile  */}
           <p
             onClick={() => {
@@ -27,7 +32,7 @@ const TodoCard = ({ todo, setTodoDeleted }) => {
             }}
             className={`${
               isOn ? "line-through opacity-50" : ""
-            } transition-all flex items-center gap-3`}
+            } transition-all flex items-center gap-3 cursor-pointer`}
           >
             <span>{todo.title}</span>
             <svg
@@ -51,7 +56,9 @@ const TodoCard = ({ todo, setTodoDeleted }) => {
           {todo.msg}
 
           {/* time stamp  */}
-          <div className="text-xs text-center pt-3 text-themeShadow font-medium">{todo.timestamp}</div>
+          <div className="text-xs text-center pt-3 text-themeShadow font-medium">
+            {todo.timestamp}
+          </div>
         </div>
       </div>
     </>

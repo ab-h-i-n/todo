@@ -74,7 +74,7 @@ const AddModal = ({ setModalOpen, isModalOpen }) => {
           isModalOpen
             ? "pointer-events-auto translate-y-[-50%]"
             : "pointer-events-none translate-y-[100vh] "
-        } absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] grid w-full max-w-[350px] gap-6 bg-[#ffffffb4] backdrop-blur-3xl px-10 py-20 lg:py-20 lg:px-12 rounded-3xl shadow-2xl shadow-themeShadow`}
+        } absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] grid w-full max-w-[350px] md:max-w-[450px] lg:max-w-[650px] gap-6 bg-[#ffffffb4] backdrop-blur-3xl px-10 py-20 lg:py-20 lg:px-12 rounded-3xl shadow-2xl shadow-themeShadow`}
       >
         <div>
           <div className="mb-1 block">
