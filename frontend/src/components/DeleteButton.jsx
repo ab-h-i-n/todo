@@ -1,16 +1,23 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 import { UserContext } from "../UserContex";
 
 const DeleteButton = ({setModalOpen,todo}) => {
+
+    const [isLoading,setLoading] = useState(false);
 
     const serverUrl = process.env.REACT_APP_SERVER_URL;
     const {setUserData} = useContext(UserContext);
 
     const handleDelete = async() => {
 
-        const userId = secureLocalStorage.getItem('user')
+        if(isLoading){
+          return;
+        }
 
+        const userId = secureLocalStorage.getItem('user');
+
+        setLoading(true);
         try {
             
             const responce = await fetch(`${serverUrl}/deletetodo`,{
@@ -35,18 +42,19 @@ const DeleteButton = ({setModalOpen,todo}) => {
         } catch (error) {
             console.error(error);
         }finally{
+            setLoading(false);
             setModalOpen(false)
         }
 
     }
 
   return (
-    <div onClick={handleDelete} className="absolute top-0 right-0 translate-x-[20px] translate-y-[-20px] shadow-lg shadow-[#0000002f] bg-red-600 w-24 h-24 rounded-full ">
+    <div onClick={handleDelete} className={`${isLoading ? 'bg-red-400 cursor-progress' : 'bg-red-600 hover:bg-red-400 cursor-pointer'} absolute top-0 right-0 translate-x-[20px] translate-y-[-20px] shadow-lg shadow-[#0000002f]  w-24 h-24 rounded-full `}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         fill="currentColor"
-        className="w-6 h-6 text-white absolute top-10 right-10"
+        className={`w-6 h-6 text-white absolute top-10 right-10 ${isLoading ? 'delete-animate' : ''}`}
       >
         <path
           fillRule="evenodd"

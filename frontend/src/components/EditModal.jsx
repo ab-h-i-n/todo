@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import SubmitButton from "./SubmitButton";
 import { Label, TextInput } from "flowbite-react";
 import secureLocalStorage from "react-secure-storage";
@@ -10,6 +10,7 @@ const EditModal = ({ setModalOpen, isModalOpen, todo , setTodoDeleted  }) => {
   const titleRef = useRef();
   const msgRef = useRef();
   const userId = secureLocalStorage.getItem("user");
+  const [isLoading,setLoading] = useState(false);
 
   const serverUrl = process.env.REACT_APP_SERVER_URL;
   const { setUserData } = useContext(UserContext);
@@ -21,6 +22,10 @@ const EditModal = ({ setModalOpen, isModalOpen, todo , setTodoDeleted  }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if(isLoading){
+      return;
+    }
+
     const newTodo = {
       _id: JSON.parse(userId)._id,
       todo_id : todo._id,
@@ -28,6 +33,7 @@ const EditModal = ({ setModalOpen, isModalOpen, todo , setTodoDeleted  }) => {
       msg: msgRef.current.value,
     };
 
+    setLoading(true);
     try {
 
       const response = await fetch(`${serverUrl}/edittodo`,{
@@ -50,6 +56,7 @@ const EditModal = ({ setModalOpen, isModalOpen, todo , setTodoDeleted  }) => {
     } catch (error) {
       console.log(error);
     }finally{
+      setLoading(false);
       setModalOpen(false);
     }
   };
@@ -103,7 +110,7 @@ const EditModal = ({ setModalOpen, isModalOpen, todo , setTodoDeleted  }) => {
             required
           />
         </div>
-        <SubmitButton text={"Edit"} />
+        <SubmitButton text={"Edit"} isLoading={isLoading} />
       </form>
     </div>
   );

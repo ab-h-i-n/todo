@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Label, TextInput } from "flowbite-react";
 import SubmitButton from "../components/SubmitButton";
 import Header from "../components/Header";
@@ -9,12 +9,18 @@ const SigninPage = () => {
   const navigate = useNavigate();
   const emailRef = useRef();
   const passRef = useRef();
+  const [isLoading,setLoading] = useState(false);
 
   const serverUrl = process.env.REACT_APP_SERVER_URL;
 
   const handleSignIn = async (e) => {
     e.preventDefault();
 
+    if(isLoading){
+      return;
+    }
+
+    setLoading(true);
     try {
       const existingUser = {
         email: emailRef.current.value,
@@ -46,6 +52,8 @@ const SigninPage = () => {
       }
     } catch (error) {
       console.error(error);
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -86,13 +94,13 @@ const SigninPage = () => {
             />
           </div>
           <Link
-            to={"/signup"}
+            to={`${isLoading ? '/signin' : '/signup'}`}
             className="my-2 text-xs lg:text-base tracking-tighter text-themeShadow hover:underline "
           >
             Don't have an account?{" "}
-            <span className="text-themeBlue font-semibold">Sign Up</span>
+            <span className={`${isLoading ? 'text-themeBlueLight' : 'text-themeBlue'} font-semibold`}>Sign Up</span>
           </Link>
-          <SubmitButton text={"Sign In"} />
+          <SubmitButton text={"Sign In"} isLoading={isLoading} />
         </form>
       </div>
     </div>

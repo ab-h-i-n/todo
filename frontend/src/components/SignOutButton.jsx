@@ -11,7 +11,7 @@ const SignOutButton = () => {
     }
 
   return (
-    <div onClick={handleSignOut} className="absolute shadow-lg shadow-themeShadow top-0 right-0 translate-x-[20px] translate-y-[-20px] bg-red-600 w-24 h-24 rounded-full">
+    <div onClick={handleSignOut} className="hover:bg-red-400 cursor-pointer absolute shadow-lg shadow-themeShadow top-0 right-0 translate-x-[20px] translate-y-[-20px] bg-red-600 w-24 h-24 rounded-full">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"

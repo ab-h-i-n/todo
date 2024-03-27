@@ -8,8 +8,11 @@ import AddModal from "../components/AddModal";
 import SignOutButton from "../components/SignOutButton";
 
 const HomePage = () => {
+  // eslint-disable-next-line
   const { userData, setUserData } = useContext(UserContext);
-  const [isAddModalOpen,setAddModalOpen] = useState(false);
+  const [isAddModalOpen, setAddModalOpen] = useState(false);
+  const [isLoading, setLoading] = useState(true);
+
   const serverUrl = process.env.REACT_APP_SERVER_URL;
 
   const fetchUser = async () => {
@@ -26,37 +29,44 @@ const HomePage = () => {
 
       const { data, error } = await responce.json();
 
-      if(error){
+      if (error) {
         console.error(error);
-      }else{
+      } else {
         setUserData(data);
       }
-      
     } catch (error) {
       console.log(error);
+    }finally{
+      setLoading(false);
     }
   };
 
-
-  useEffect(()=>{
-    fetchUser();  // eslint-disable-next-line
-  },[])
-
-  // useEffect(() => {
-  //   console.log(userData);
-  // }, [userData]);
+  useEffect(() => {
+    fetchUser(); // eslint-disable-next-line
+  }, []);
 
   return (
     <div className="min-h-screen overflow-x-hidden relative">
-      <div className="mx-5 mb-20">
-        <Header />
-        <SignOutButton/>
-        <TodosContainer />
-      </div>
+      {isLoading ? (
+        <div className="flex h-screen justify-center items-center text-4xl text-themeBlue overflow-hidden">
+          <span className="loader"></span>
+        </div>
+      ) : (
+        <>
+          <div className="mx-5 mb-20">
+            <Header />
+            <SignOutButton />
+            <TodosContainer />
+          </div>
 
-      <AddModal setModalOpen={setAddModalOpen} isModalOpen={isAddModalOpen}  />
+          <AddModal
+            setModalOpen={setAddModalOpen}
+            isModalOpen={isAddModalOpen}
+          />
 
-      <AddButton setModalOpen={setAddModalOpen} />
+          <AddButton setModalOpen={setAddModalOpen} />
+        </>
+      )}
     </div>
   );
 };

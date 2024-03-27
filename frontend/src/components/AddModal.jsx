@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import SubmitButton from "./SubmitButton";
 import { Label, TextInput } from "flowbite-react";
 import secureLocalStorage from "react-secure-storage";
@@ -10,6 +10,7 @@ const AddModal = ({ setModalOpen, isModalOpen }) => {
   const titleRef = useRef();
   const msgRef = useRef();
   const userId = secureLocalStorage.getItem("user");
+  const [isLoading,setLoading] = useState(false);
 
   const serverUrl = process.env.REACT_APP_SERVER_URL;
 
@@ -20,12 +21,17 @@ const AddModal = ({ setModalOpen, isModalOpen }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if(isLoading){
+      return;
+    }
+
     const newTodo = {
       _id: JSON.parse(userId)._id,
       title: titleRef.current.value,
       msg: msgRef.current.value,
     };
 
+    setLoading(true);
     try {
       const responce = await fetch(`${serverUrl}/newtodo`, {
         method: "PUT",
@@ -47,6 +53,7 @@ const AddModal = ({ setModalOpen, isModalOpen }) => {
     }finally{
       titleRef.current.value = '';
       msgRef.current.value ='';
+      setLoading(false);
       setModalOpen(false);
     }
   };
@@ -97,7 +104,7 @@ const AddModal = ({ setModalOpen, isModalOpen }) => {
             required
           />
         </div>
-        <SubmitButton text={"Add"} />
+        <SubmitButton text={"Add"} isLoading={isLoading} />
       </form>
     </div>
   );
